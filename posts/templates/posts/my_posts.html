@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>My posts</h1>
+<a href="{% url 'post-create' %}" class="center-btn">Create Post</a>
+<div class="posts">
+    {% for post in object_list %}
+    <div class="post">
+        {% if post.image %}
+        <a href="{% url 'post-detail' post.id %}" >
+            <img src="{{ post.image.url }}" alt="">
+        </a>
+        {% else %}
+        <p></p>
+        {% endif %}
+        <a href="{% url 'post-detail' post.id %}">
+            <h3 class="post_title">{{ post.title }}</h3>
+        </a>
+        <a href="{% url 'edit-post' post.id %}" class="button">Edit post</a>
+        <a href="{% url 'delete-post' post.id %}" class="button-danger">Delete post</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

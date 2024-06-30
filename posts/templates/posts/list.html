@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Home Page</h1>
+    <div class="posts">
+    {% for post in object_list %}
+        <div class="post">
+        {% if post.image %}
+        <a href="{% url 'post-detail' post.id %}"> <img src="{{ post.image.url }}" alt=""></a>
+        {% else %}
+        <p></p>
+        {% endif %}
+        <a href="{% url 'post-detail' post.id %}"><p>{{ post.title }}</p></a>
+        <p class="post_owner">{{ post.owner}}</p>
+        <p class="date">{{ post.created_at|date:"d.m.Y H:i" }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

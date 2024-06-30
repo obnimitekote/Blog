@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="post">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="" class="detimg"><br><br>
+        {% else %}
+        <p></p>
+        {% endif %}
+    <p>{{ object.title }}</p><br>
+    <p>{{ object.content }}</p><br>
+    <p><small>{{ object.owner.username }}</small></p><br>
+    <p class="date">{{ object.created_at|date:"d.m.Y H:i" }}</p>
+</div>
+{% endblock %}

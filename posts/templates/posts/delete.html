@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>Do you really want to delete post with title <b>{{ object.title }}</b>?</p>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Delete Post</button>
+</form>
+{% endblock %}
