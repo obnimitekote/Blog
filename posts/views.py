@@ -8,7 +8,7 @@ from rest_framework import status, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.generics import UpdateAPIView, DestroyAPIView
 
 from .models import Post
 from .serializers import PostSerializer
@@ -65,6 +65,12 @@ class PostDeleteView(LoginRequiredMixin,DeleteView):
     def get_success_url(self) -> str:
         return reverse_lazy('home')
 
+
+class PostsViewSet(ModelViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, OwnPostOrReadOnly]
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
 @api_view(['GET'])
 def get_posts(request):
     posts = Post.objects.all()
@@ -82,7 +88,14 @@ def create_post(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PostsViewSet(ModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, OwnPostOrReadOnly]
-    serializer_class = PostSerializer
+class PostUpdateAPIView(UpdateAPIView):
     queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = 'slug'
+
+
+class PostDeleteAPIView(DestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = 'slug'
+
